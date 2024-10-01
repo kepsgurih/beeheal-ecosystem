@@ -5,11 +5,7 @@ import { HamburgerIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
 import {
     Avatar,
     Box,
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
     Flex,
-    Heading,
     IconButton,
     Menu,
     MenuButton,
@@ -18,52 +14,21 @@ import {
     Spacer,
     Text,
     useColorMode,
-    useToast,
-    WrapItem
 } from '@chakra-ui/react';
-import { useRouter } from 'next/navigation';
-import { signOut } from "supertokens-auth-react/recipe/session";
-
-
-const BreadCrumbData = () => {
-    return (
-        <Breadcrumb fontSize={10}>
-            <BreadcrumbItem>
-                <BreadcrumbLink href='#'>Home</BreadcrumbLink>
-            </BreadcrumbItem>
-
-            <BreadcrumbItem>
-                <BreadcrumbLink href='#'>Docs</BreadcrumbLink>
-            </BreadcrumbItem>
-
-            <BreadcrumbItem isCurrentPage>
-                <BreadcrumbLink href='#'>Breadcrumb</BreadcrumbLink>
-            </BreadcrumbItem>
-        </Breadcrumb>
-    )
-}
+import BreadCrumbLayout from '../BreadCrumbLayout';
+import { LogoutLink } from '@kinde-oss/kinde-auth-nextjs';
+import { constantMenuStakeholder } from '@/constant/menu';
+import { usePathname } from 'next/navigation';
 
 const HeaderLayout = ({ toggleSidebar }: HeaderProps) => {
-    const toast = useToast()
-    const router = useRouter()
-
-    const logout = async () => {
-        await signOut()
-        toast({
-            title: 'Berhasil keluar.',
-            description: "Anda akan diarahkan ke halaman lain.",
-            status: 'success',
-            duration: 9000,
-            isClosable: true,
-        })
-        router.replace('/')
-    }
     const { colorMode, toggleColorMode } = useColorMode()
+    const pathname = usePathname()
+    const header = constantMenuStakeholder.filter(item => item.href === pathname)[0]
+    console.log(header)
+
     return (
         <Box
             as="header"
-            bg="teal.500"
-            color="white"
             py={4}
             px={10}
             ml={{ base: 0, md: 250 }}
@@ -76,15 +41,15 @@ const HeaderLayout = ({ toggleSidebar }: HeaderProps) => {
                         icon={<HamburgerIcon />}
                         onClick={toggleSidebar}
                         variant="ghost"
-                        color="white"
+                        color={colorMode === 'light' ? '#718096' : 'white'}
                         aria-label="Toggle sidebar"
                         display={{ base: 'flex', md: 'none' }}
                         mr={2}
                     />
                     <div>
-                        <BreadCrumbData />
-                        <Text fontWeight={'bold'}>
-                            Dashboard
+                        <BreadCrumbLayout data={header?.breadcrumb} />
+                        <Text fontWeight={'bold'} fontSize={14}>
+                            {header?.label}
                         </Text>
                     </div>
                 </Flex>
@@ -96,7 +61,7 @@ const HeaderLayout = ({ toggleSidebar }: HeaderProps) => {
                     icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
                     onClick={toggleColorMode}
                     variant="ghost"
-                    color="white"
+                    color={colorMode === 'light' ? '#718096' : 'white'}
                     aria-label="Toggle color mode"
                     mr={2}
                 />
@@ -110,7 +75,11 @@ const HeaderLayout = ({ toggleSidebar }: HeaderProps) => {
                             <Text fontSize="sm">john.doe@example.com</Text>
                         </MenuItem>
                         <MenuItem>Profile</MenuItem>
-                        <MenuItem onClick={logout}>Log out</MenuItem>
+                        <MenuItem>
+                            <LogoutLink postLogoutRedirectURL='/'>
+                                Log out
+                            </LogoutLink>
+                        </MenuItem>
                     </MenuList>
                 </Menu>
             </Flex>
