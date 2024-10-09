@@ -1,14 +1,15 @@
-Editable Folder
-src/
-├── app (page screen and API)/
-│   ├── api (Rest API backend)
-│   ├── auth (screen auth)
-│   ├── dashboard (screen dashboard)
-│   └── etc
-├── assets (media)
-├── components (atom and molecules design)
-├── config (third party config)
-├── constant (hard code json)
-├── helper
+## Editable Folder
+
+src/<br/>
+├── app (page screen and API)/<br/>
+│   ├── api (Rest API backend)<br/>
+│   ├── auth (screen auth)<br/>
+│   ├── dashboard (screen dashboard)<br/>
+│   ├── etc<br/>
+│   └── middleware.ts (security)<br/>
+├── assets (media)<br/>
+├── components (atom and molecules design)<br/>
+├── config (third party config)<br/>
+├── constant (hard code json)<br/>
+├── helper<br/>
 └── types (config interface)
-middleware.ts (security)
