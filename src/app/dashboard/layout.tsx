@@ -18,7 +18,7 @@ async function getUserData() {
       error: 'Token tidak ditemukan!'
     }
   }
-  const response = await fetch('http://localhost:3000/api/v1/auth/me', {
+  const response = await fetch(`${process.env.PUBLIC_URL as string}api/v1/auth/me`, {
     headers: {
       'Authorization': `Bearer ${token.value}`
     }
@@ -44,7 +44,7 @@ async function Layout({ children }: { children: React.ReactNode }) {
   }
   return (
     <LayoutComponents>
-      <UserDataInitializer userData={data} error={error} />      
+      <UserDataInitializer userData={data} error={error} />
       {children}
     </LayoutComponents>
   )
