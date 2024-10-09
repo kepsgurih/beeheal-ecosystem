@@ -11,7 +11,6 @@ import {
   Flex,
   useBreakpointValue,
   Text,
-  useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { SidebarItemProps, SidebarProps } from '@/types/types';
@@ -48,12 +47,12 @@ const SidebarItem = ({ icon, children, href, ...rest }: SidebarItemProps & { hre
           }}
           {...rest}
         >
-          {React.cloneElement(icon as React.ReactElement, { 
-            style: { 
+          {React.cloneElement(icon as React.ReactElement, {
+            style: {
               color: isActive ? 'white' : '#007AFF',
               transition: 'color 0.2s',
             },
-            className: 'sidebar-icon' 
+            className: 'sidebar-icon'
           })}
           <Box ml="4">{children}</Box>
         </Flex>
@@ -64,7 +63,7 @@ const SidebarItem = ({ icon, children, href, ...rest }: SidebarItemProps & { hre
 
 const SideMenuLayout = ({ isOpen, onClose }: SidebarProps) => {
   const isMobile = useBreakpointValue({ base: true, md: false })
-  const color = useColorModeValue('#141515','white')
+  const color = useColorModeValue('#141515', 'white')
 
   const SidebarContent = (
     <VStack align="stretch" spacing={0}>
@@ -91,17 +90,20 @@ const SideMenuLayout = ({ isOpen, onClose }: SidebarProps) => {
             color: white !important;
           }
         `}</style>
-        {constantMenuStakeholder.map((item) => (
-          <SidebarItem
-            key={item.key}
-            fontSize={'14'}
-            fontWeight={'600'}
-            icon={item.icon}
-            href={item.href}
-          >
-            {item.label}
-          </SidebarItem>
-        ))}
+        {constantMenuStakeholder
+          .filter((item) => item && item.notShow !== true)
+          .map((item) => (
+            <SidebarItem
+              key={item.key}
+              fontWeight={'500'}
+              icon={item.icon}
+              href={item.href}
+            >
+              <Text fontSize={'11'} pr={'10px'} fontWeight={'600'}>
+                {item.label}
+              </Text>
+            </SidebarItem>
+          ))}
       </Box>
     </VStack>
   )

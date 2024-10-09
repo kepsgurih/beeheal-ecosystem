@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  font-family: var(--font-poppins);
+}
 
 [data-theme="dark"] body {
   background-color: rgb(51 65 85);
@@ -11,7 +14,6 @@
 body {
   background: #EDEDED;
   color: #141515;
-  font-family: var(--font-inter);
 }
 
 @layer utilities {

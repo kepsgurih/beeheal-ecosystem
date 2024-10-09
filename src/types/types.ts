@@ -1,4 +1,22 @@
 import { FlexProps } from "@chakra-ui/react";
+import mongoose from "mongoose";
+
+export interface IAuth extends Document {
+  email: string;
+  password: string;
+}
+
+export interface IUser extends Document {
+  name: string;
+  avatar: string;
+  createdAt: Date;
+  verified: boolean;
+}
+
+export interface IOrganization extends Document {
+  org_id: string;
+  label: string;
+}
 
 export interface SidebarItemProps extends FlexProps {
   icon: React.ReactElement;
@@ -13,3 +31,4 @@ export interface SidebarProps {
 export interface HeaderProps {
   toggleSidebar: () => void;
 }
+

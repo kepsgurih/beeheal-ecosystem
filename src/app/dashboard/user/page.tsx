@@ -1,5 +1,5 @@
-export default function Page() {
-    return (
+export default function User(){
+    return(
         <div>
             test
         </div>

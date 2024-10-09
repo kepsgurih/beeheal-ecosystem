@@ -16,15 +16,18 @@ import {
     useColorMode,
 } from '@chakra-ui/react';
 import BreadCrumbLayout from '../BreadCrumbLayout';
-import { LogoutLink } from '@kinde-oss/kinde-auth-nextjs';
 import { constantMenuStakeholder } from '@/constant/menu';
 import { usePathname } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 const HeaderLayout = ({ toggleSidebar }: HeaderProps) => {
+    const user = useSelector((state: RootState) => state.auth.data);
+
+    console.log(user, 'auth2122')
     const { colorMode, toggleColorMode } = useColorMode()
     const pathname = usePathname()
     const header = constantMenuStakeholder.filter(item => item.href === pathname)[0]
-    console.log(header)
 
     return (
         <Box
@@ -66,19 +69,17 @@ const HeaderLayout = ({ toggleSidebar }: HeaderProps) => {
                     mr={2}
                 />
                 <Menu>
-                    <MenuButton as={Avatar} size="sm" src="https://bit.ly/broken-link" cursor="pointer" />
+                    <MenuButton as={Avatar} size="sm" src={user.avatar} cursor="pointer" />
                     <MenuList color="black">
                         <MenuItem>
-                            <Text fontWeight="bold">John Doe</Text>
+                            <Text fontWeight="bold">{user && user.name}</Text>
                         </MenuItem>
                         <MenuItem>
-                            <Text fontSize="sm">john.doe@example.com</Text>
+                            <Text fontSize="sm">{user && user.email}</Text>
                         </MenuItem>
                         <MenuItem>Profile</MenuItem>
                         <MenuItem>
-                            <LogoutLink postLogoutRedirectURL='/'>
-                                Log out
-                            </LogoutLink>
+                            Log out
                         </MenuItem>
                     </MenuList>
                 </Menu>

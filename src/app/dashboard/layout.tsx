@@ -1,27 +1,53 @@
-'use client';
+import LayoutComponents from '@/components/layout';
+import { Metadata } from 'next';
+import React from 'react';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import UserDataInitializer from '@/components/userInitialize';
 
-import React, { useState } from 'react';
-import { Box, Flex } from '@chakra-ui/react';
-import SideMenuLayout from '@/components/layout/sideMenu';
-import HeaderLayout from '@/components/layout/Header';
+export const metadata: Metadata = {
+  title: 'Beeheal - Dashboard'
+}
 
-function LayoutComponents({ children }: { children: React.ReactNode }) {
-  const [isSidebarOpen, setSidebarOpen] = useState(false)
-  const toggleSidebar = () => setSidebarOpen(!isSidebarOpen)
+async function getUserData() {
+  const cookieStore = cookies();
+  const token = cookieStore.get('auth_token');
+  if (!token) {
+    return {
+      data: null,
+      error: 'Token tidak ditemukan!'
+    }
+  }
+  const response = await fetch('http://localhost:3000/api/v1/auth/me', {
+    headers: {
+      'Authorization': `Bearer ${token.value}`
+    }
+  });
+  if (!response.ok) {
+    return {
+      data: null,
+      error: 'Gagal memuat data'
+    }
+  }
+  return {
+    data: response.json(),
+    error: null
+  }
+}
 
+
+async function Layout({ children }: { children: React.ReactNode }) {
+  const { data, error } = await getUserData();
+
+  if (error) {
+    redirect('/')
+  }
   return (
-    <Flex minHeight="100vh" direction="column">
-      <HeaderLayout toggleSidebar={toggleSidebar} />
-      <Flex flex={1}>
-        <SideMenuLayout isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
-        <Box as="main" flex={1} ml={{ base: 0, md: 60 }} p={4}>
-          <Box ml={{ base: 0, md: 8 }}>
-            {children}
-          </Box>
-        </Box>
-      </Flex>
-    </Flex>
-  );
+    <LayoutComponents>
+      <UserDataInitializer userData={data} error={error} />      
+      {children}
+    </LayoutComponents>
+  )
 };
 
-export default LayoutComponents;
+export default Layout;
