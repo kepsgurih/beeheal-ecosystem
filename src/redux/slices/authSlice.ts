@@ -1,7 +1,8 @@
+import { IUserState } from '@/types/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface UserState {
-    data: any | null;
+    data: IUserState | null;
     error: string | null;
 }
 
@@ -14,7 +15,7 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setUserData: (state, action: PayloadAction<any>) => {
+        setUserData: (state, action: PayloadAction<IUserState>) => {
             state.data = action.payload;
             state.error = null;
         },

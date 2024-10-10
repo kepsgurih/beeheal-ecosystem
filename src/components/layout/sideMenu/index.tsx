@@ -15,19 +15,15 @@ import {
 } from '@chakra-ui/react';
 import { SidebarItemProps, SidebarProps } from '@/types/types';
 import Image from 'next/image';
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import logo from '@/assets/img/iconBee.png'
+import logo from '@/assets/img/iconBee.png';
 import AvatarSide from './avatarSide';
 import { constantMenuStakeholder } from '@/constant/menu';
-
-
-
 
 const SidebarItem = ({ icon, children, href, ...rest }: SidebarItemProps & { href: string }) => {
   const pathname = usePathname();
   const isActive = pathname === href;
-
   return (
     <Link href={href} passHref legacyBehavior>
       <ChakraLink style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
@@ -61,11 +57,10 @@ const SidebarItem = ({ icon, children, href, ...rest }: SidebarItemProps & { hre
   );
 };
 
-const SideMenuLayout = ({ isOpen, onClose }: SidebarProps) => {
-  const isMobile = useBreakpointValue({ base: true, md: false })
-  const color = useColorModeValue('#141515', 'white')
-
-  const SidebarContent = (
+const SidebarContent = () => {
+  const color = useColorModeValue('#141515', 'white');
+  
+  return (
     <VStack align="stretch" spacing={0}>
       <Box borderBottom={'2px'} borderColor={'#E9EBF0'} borderBottomWidth={'0.5'}>
         <Flex mx={8} alignItems={'center'} justify={'left'} py={5}>
@@ -106,7 +101,12 @@ const SideMenuLayout = ({ isOpen, onClose }: SidebarProps) => {
           ))}
       </Box>
     </VStack>
-  )
+  );
+};
+
+const SideMenuLayout = ({ isOpen, onClose }: SidebarProps) => {
+  const isMobile = useBreakpointValue({ base: true, md: false });
+  const bgColor = useColorModeValue('white', 'rgb(15 23 42)');
 
   if (isMobile) {
     return (
@@ -115,12 +115,12 @@ const SideMenuLayout = ({ isOpen, onClose }: SidebarProps) => {
           <DrawerContent>
             <DrawerCloseButton />
             <DrawerBody>
-              {SidebarContent}
+              <SidebarContent />
             </DrawerBody>
           </DrawerContent>
         </DrawerOverlay>
       </Drawer>
-    )
+    );
   }
 
   return (
@@ -134,15 +134,15 @@ const SideMenuLayout = ({ isOpen, onClose }: SidebarProps) => {
       pb="100"
       overflowX="hidden"
       overflowY="auto"
-      bg={useColorModeValue('white', 'rgb(15 23 42)')}
+      bg={bgColor}
       boxShadow={'xl'}
       borderColor="#03346E"
       borderRightWidth={{ base: '1px', md: '0' }}
       display={{ base: 'none', md: 'block' }}
     >
-      {SidebarContent}
+      <SidebarContent />
     </Box>
-  )
+  );
 };
 
 export default SideMenuLayout;

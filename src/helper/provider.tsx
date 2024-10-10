@@ -4,8 +4,7 @@ import { CacheProvider } from '@chakra-ui/next-js';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '@/components/theme'
 import { Provider as ProviderRedux } from 'react-redux';
-import { persistor, store } from '@/redux/store';
-// import { PersistGate } from 'redux-persist/integration/react';
+import { store } from '@/redux/store';
 
 
 export function Providers({ children }: { children: React.ReactNode }) {

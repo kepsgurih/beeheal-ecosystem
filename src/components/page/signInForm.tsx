@@ -1,7 +1,7 @@
 'use client';
 
 import React, { FormEvent, useState } from "react";
-import { loginServices, registerServices } from "@/services/auth";
+import { loginServices } from "@/services/auth";
 import {
     Button,
     FormControl,
@@ -16,7 +16,7 @@ import { useFormState, useFormStatus } from "react-dom";
 export default function SignInForm() {
     const [errorMessage, dispatch] = useFormState(loginServices, undefined)
 
-    const [type, setType] = useState('login')
+    const [type, ] = useState('login')
 
     return (
         <form action={dispatch}>

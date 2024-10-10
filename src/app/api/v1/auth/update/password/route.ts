@@ -1,7 +1,7 @@
-import { MIN_PASSWORD, PASSWORD_LENGTH, SERVER_ERROR, UNAUTHORIZED, USED_EMAIL } from "@/config/auth";
+import { MIN_PASSWORD, PASSWORD_LENGTH, SERVER_ERROR, UNAUTHORIZED } from "@/config/auth";
 import connectMongoDB from "@/lib/mongodb";
 import Auth from "@/models/auth";
-import jwt from 'jsonwebtoken';
+import * as jose from 'jose'
 import bcrypt from 'bcrypt';
 
 export async function PATCH(request: Request) {
@@ -16,11 +16,11 @@ export async function PATCH(request: Request) {
             return Response.json(UNAUTHORIZED, { status: 401 });
         }
 
-        const decoded: any = jwt.verify(token, process.env.JWT_SECRET || '');
-        await connectMongoDB();
-
+        const secret = new TextEncoder().encode(process.env.JWT_SECRET || '');
+        const { payload } = await jose.jwtVerify(token, secret);
         const { password, newPassword } = await request.json();
-
+        await connectMongoDB();
+        
         if (!password || !newPassword) {
             return Response.json({ message: 'Password atau Password baru wajib diisi' }, { status: 401 });
         } else {
@@ -30,12 +30,12 @@ export async function PATCH(request: Request) {
                     { status: 400 }
                 );
             } else {
-                const user = await Auth.findById(decoded.id)
+                const user = await Auth.findById(payload.id)
 
                 if (user && (await bcrypt.compare(password, user.password))) {
                     const hashedPassword = await bcrypt.hash(newPassword, 10);
-                    
-                    await Auth.findByIdAndUpdate(decoded.id, { password: hashedPassword });
+
+                    await Auth.findByIdAndUpdate(payload.id, { password: hashedPassword });
 
                     return Response.json({ message: 'Password berhasil di update' }, { status: 200 });
                 } else {

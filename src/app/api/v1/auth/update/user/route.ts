@@ -1,7 +1,7 @@
 import connectMongoDB from "@/lib/mongodb";
 import User from "@/models/user";
 import { SERVER_ERROR, UNAUTHORIZED, USER_UPDATED } from "@/config/auth";
-import jwt from 'jsonwebtoken';
+import * as jose from 'jose';
 
 
 export async function PUT(request: Request) {
@@ -18,14 +18,15 @@ export async function PUT(request: Request) {
         }
 
         // Verifikasi token
-        const decoded: any = jwt.verify(token, process.env.JWT_SECRET || '');
+        const secret = new TextEncoder().encode(process.env.JWT_SECRET || '');
+        const { payload } = await jose.jwtVerify(token, secret);
         await connectMongoDB();
 
 
         await connectMongoDB();
 
         // Mencari pengguna berdasarkan ID
-        const user = await User.findById(decoded.id);
+        const user = await User.findById(payload.id);
         if (!user) {
             return Response.json(
                 { message: "User not found" },

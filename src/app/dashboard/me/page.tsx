@@ -1,6 +1,4 @@
-"use client"
-
-import React, { useState } from "react";
+import React from "react";
 import {
     Box,
     Button,
@@ -8,7 +6,6 @@ import {
     CardBody,
     CardFooter,
     CardHeader,
-    Container,
     FormControl,
     FormHelperText,
     FormLabel,
@@ -16,18 +13,9 @@ import {
     Input,
     Stack,
     StackDivider,
-    Text,
-    VStack
 } from "@chakra-ui/react";
 
 export default function Page() {
-    const [dataInput, setDataInput] = useState({})
-
-    const onChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target?.value
-    }
-
-
     return (
         <Stack divider={<StackDivider />} spacing={'6'}>
             <Card>

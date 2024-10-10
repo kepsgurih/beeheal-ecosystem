@@ -1,5 +1,4 @@
 import { FlexProps } from "@chakra-ui/react";
-import mongoose from "mongoose";
 
 export interface IAuth extends Document {
   email: string;
@@ -11,6 +10,15 @@ export interface IUser extends Document {
   avatar: string;
   createdAt: Date;
   verified: boolean;
+}
+
+export interface IUserState {
+  __v: string;
+  _id: string;
+  avatar: string;
+  createdAt: string;
+  email: string;
+  name: string;
 }
 
 export interface IOrganization extends Document {

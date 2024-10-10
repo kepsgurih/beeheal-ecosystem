@@ -20,6 +20,7 @@ import { constantMenuStakeholder } from '@/constant/menu';
 import { usePathname } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { AVATAR_GENERATOR } from '@/config/auth';
 
 const HeaderLayout = ({ toggleSidebar }: HeaderProps) => {
     const user = useSelector((state: RootState) => state.auth.data);
@@ -69,7 +70,7 @@ const HeaderLayout = ({ toggleSidebar }: HeaderProps) => {
                     mr={2}
                 />
                 <Menu>
-                    <MenuButton as={Avatar} size="sm" src={user.avatar} cursor="pointer" />
+                    <MenuButton as={Avatar} size="sm" src={user ? user.avatar : `${AVATAR_GENERATOR}404`} cursor="pointer" />
                     <MenuList color="black">
                         <MenuItem>
                             <Text fontWeight="bold">{user && user.name}</Text>

@@ -1,12 +1,12 @@
 "use server"
 
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { cookies } from "next/headers";
 
 const sessionPassword = process.env.SESSION_PASSWORD as string;
 if (!sessionPassword) throw new Error("SESSION_PASSWORD is not set");
 
-export const registerServices = async ({ name, email, password }: { name: String, email: String, password: String }) => {
+export const registerServices = async ({ name, email, password }: { name: string, email: string, password: string }) => {
     try {
         const resp = await axios({
             url: '/api/v1/auth/register',
@@ -51,22 +51,23 @@ export const loginServices = async (_currentState: unknown, formData: FormData) 
         });
     }
 
-    catch (error: any) {
+    catch (error) {
         let responseMessage
-        if (error && error.response) {
-            responseMessage = error.response.data.message
+        if (error instanceof AxiosError) {
+            responseMessage = error?.response?.data.message;
         } else {
-            responseMessage = error.message
+            // Handle error yang tidak diketahui jenisnya
+            responseMessage = "Terjadi kesalahan pada server"
         }
         return responseMessage
     }
 }
 
-// export const getMeServices = async (fromAPI?: boolean, tokenString?: string) => {
+// export const getMeServices = async (fromAPI?: boolean, tokenstring?: string) => {
 //     try {
 //         let token
 //         if (fromAPI) {
-//             token = tokenString;
+//             token = tokenstring;
 //         } else {
 //             token = localStorage.getItem('token');
 //         }

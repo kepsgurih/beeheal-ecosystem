@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest) {
         try {
             const secret = new TextEncoder().encode(process.env.JWT_SECRET || '')
             const { payload } = await jose.jwtVerify(token, secret)
-            if(request.nextUrl.pathname === '/'){
+            if(payload.id && request.nextUrl.pathname === '/'){
                 return Response.redirect(new URL('/dashboard', request.url))
             }
         } catch (error) {
