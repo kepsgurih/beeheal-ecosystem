@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 async function getUserData() {
-  console.log('get service[2]', `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/v1/auth/me`)
+  console.log('get service[2]', `${process.env.PUBLIC_URL}/api/v1/auth/me`)
   const cookieStore = cookies();
   const token = cookieStore.get('auth_token');
 
@@ -22,7 +22,7 @@ async function getUserData() {
   }
 
   try {
-    const response = await fetch(`https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/v1/auth/me`, {
+    const response = await fetch(`${process.env.PUBLIC_URL}/api/v1/auth/me`, {
       headers: {
         'Authorization': `Bearer ${token.value}`
       },
