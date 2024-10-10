@@ -10,7 +10,6 @@ export const metadata: Metadata = {
 };
 
 async function getUserData() {
-  console.log('get service[2]', `${process.env.PUBLIC_URL}/api/v1/auth/me`)
   const cookieStore = cookies();
   const token = cookieStore.get('auth_token');
 

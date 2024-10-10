@@ -15,7 +15,6 @@ export const registerServices = async ({ name, email, password }: { name: string
             }
         })
 
-        console.log('RESP01', resp)
         return {
             status: true,
             resp

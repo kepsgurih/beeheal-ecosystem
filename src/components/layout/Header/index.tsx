@@ -24,8 +24,6 @@ import { AVATAR_GENERATOR } from '@/config/auth';
 
 const HeaderLayout = ({ toggleSidebar }: HeaderProps) => {
     const user = useSelector((state: RootState) => state.auth.data);
-
-    console.log(user, 'auth2122')
     const { colorMode, toggleColorMode } = useColorMode()
     const pathname = usePathname()
     const header = constantMenuStakeholder.filter(item => item.href === pathname)[0]

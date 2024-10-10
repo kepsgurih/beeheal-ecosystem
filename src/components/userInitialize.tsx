@@ -15,7 +15,6 @@ export default function UserDataInitializer({ userData, error }: UserDataInitial
 
     useEffect(() => {
         if (userData) {
-            console.log('userData', userData)
             dispatch(setUserData(userData));
         } else if (error) {
             dispatch(setUserError(error));
