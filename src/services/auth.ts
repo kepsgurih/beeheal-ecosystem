@@ -34,10 +34,10 @@ export const registerServices = async ({ name, email, password }: { name: string
 }
 
 export const loginServices = async (_currentState: unknown, formData: FormData) => {
-    console.log('service created[1] ', `${process.env.NEXT_PUBLIC_VERCEL_URL || process.env.PUBLIC_URL}/api/v1/auth/login`)
+    console.log('service created[1] ', `${'https://'+process.env.NEXT_PUBLIC_VERCEL_URL || process.env.PUBLIC_URL}/api/v1/auth/login`)
     try {
         const resp = await axios({
-            url: `${process.env.NEXT_PUBLIC_VERCEL_URL || process.env.PUBLIC_URL}/api/v1/auth/login`,
+            url: `${'https://' + process.env.NEXT_PUBLIC_VERCEL_URL || process.env.PUBLIC_URL}/api/v1/auth/login`,
             method: 'POST',
             data: {
                 email: formData.get('email'),
