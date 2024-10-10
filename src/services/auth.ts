@@ -43,7 +43,7 @@ export const loginServices = async (_currentState: unknown, formData: FormData) 
         })
         const token = resp.data.token;
         cookies().set('auth_token', token, {
-            sameSite: 'lax',
+            sameSite: 'none',
             httpOnly: true,
             secure: true,
             path: '/',
