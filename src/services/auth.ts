@@ -34,6 +34,15 @@ export const registerServices = async ({ name, email, password }: { name: string
 }
 
 export const loginServices = async (_currentState: unknown, formData: FormData) => {
+    console.log('loginServices log')
+    console.log({
+        email: formData.get('email'),
+        password: formData.get('password')
+    }, 'loginServices1')
+    console.log(`${process.env.PUBLIC_URL as string}api/v1/auth/login`)
+    console.log('login services3', process.env.VERCEL_URL)
+    console.log(process.env.NEXT_PUBLIC_VERCEL_URL )
+    console.log(process.env.NEXT_PUBLIC_VERCEL_URL || process.env.PUBLIC_URL)
     try {
         const resp = await axios({
             url: `${process.env.PUBLIC_URL as string}api/v1/auth/login`,
