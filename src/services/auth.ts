@@ -53,6 +53,7 @@ export const loginServices = async (_currentState: unknown, formData: FormData) 
     }
 
     catch (error) {
+        console.error('ERRORALERT', error)
         let responseMessage
         if (error instanceof AxiosError) {
             responseMessage = error?.response?.data.message;
