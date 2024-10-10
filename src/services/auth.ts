@@ -34,18 +34,10 @@ export const registerServices = async ({ name, email, password }: { name: string
 }
 
 export const loginServices = async (_currentState: unknown, formData: FormData) => {
-    console.log('loginServices log')
-    console.log({
-        email: formData.get('email'),
-        password: formData.get('password')
-    }, 'loginServices1')
-    console.log(`${process.env.PUBLIC_URL as string}api/v1/auth/login`)
-    console.log('login services3', process.env.VERCEL_URL)
-    console.log(process.env.NEXT_PUBLIC_VERCEL_URL )
-    console.log(process.env.NEXT_PUBLIC_VERCEL_URL || process.env.PUBLIC_URL)
+    console.log('service created[1] ', `${process.env.NEXT_PUBLIC_VERCEL_URL || process.env.PUBLIC_URL}/api/v1/auth/login`)
     try {
         const resp = await axios({
-            url: `${process.env.PUBLIC_URL as string}api/v1/auth/login`,
+            url: `${process.env.NEXT_PUBLIC_VERCEL_URL || process.env.PUBLIC_URL}/api/v1/auth/login`,
             method: 'POST',
             data: {
                 email: formData.get('email'),
@@ -71,35 +63,3 @@ export const loginServices = async (_currentState: unknown, formData: FormData) 
         return responseMessage
     }
 }
-
-// export const getMeServices = async (fromAPI?: boolean, tokenstring?: string) => {
-//     try {
-//         let token
-//         if (fromAPI) {
-//             token = tokenstring;
-//         } else {
-//             token = localStorage.getItem('token');
-//         }
-//         const resp = await axios.get('/api/v1/auth/me', {
-//             headers: { Authorization: `Bearer ${token}` }
-//         });
-//         const encryptedSession = await sealData(JSON.stringify(resp.data), {
-//             password: sessionPassword,
-//         });
-
-//         cookies().set('auth_session', encryptedSession, {
-//             sameSite: 'strict',
-//             httpOnly: true,
-//             secure: process.env.NODE_ENV === 'production',
-//         });
-//         return {
-//             status: true,
-//             response: resp.data
-//         };
-//     } catch (error: any) {
-//         return {
-//             status: false,
-//             error: error.message
-//         };
-//     }
-// };
