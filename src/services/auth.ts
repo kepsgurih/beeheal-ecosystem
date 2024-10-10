@@ -34,7 +34,13 @@ export const registerServices = async ({ name, email, password }: { name: string
 }
 
 export const loginServices = async (_currentState: unknown, formData: FormData) => {
-    console.log('service created[1] ', `${'https://'+process.env.NEXT_PUBLIC_VERCEL_URL || process.env.PUBLIC_URL}/api/v1/auth/login`)
+    console.log(`${process.env.NEXT_INTIAL_REQ as string + process.env.NEXT_PUBLIC_VERCEL_URL as string}/api/v1/auth/login`)
+    console.info('INFO1', process.env.AAA1)
+    console.info('INFO2', process.env.AAA2)
+    console.info('INFO3', process.env.AAA3)
+    console.info('INFO4', process.env.AAA4)
+    console.info('INFO5', process.env.AAA5)
+    console.info('INFO6', process.env.AAA6)
     try {
         const resp = await axios({
             url: `${'https://' + process.env.NEXT_PUBLIC_VERCEL_URL || process.env.PUBLIC_URL}/api/v1/auth/login`,
