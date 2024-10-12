@@ -2,6 +2,7 @@
 
 import axios, { AxiosError } from 'axios'
 import { cookies } from "next/headers";
+import { redirect } from 'next/navigation';
 
 export const registerServices = async ({ name, email, password }: { name: string, email: string, password: string }) => {
     try {
@@ -46,8 +47,8 @@ export const loginServices = async (_currentState: unknown, formData: FormData) 
             httpOnly: true,
             secure: true,
             path: '/',
-            maxAge: 2592000
         });
+        redirect('/dashboard')
     }
 
     catch (error) {

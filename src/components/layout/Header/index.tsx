@@ -15,15 +15,12 @@ import {
     Text,
     useColorMode,
 } from '@chakra-ui/react';
+import { useSession } from "next-auth/react"
 import BreadCrumbLayout from '../BreadCrumbLayout';
 import { constantMenuStakeholder } from '@/constant/menu';
 import { usePathname } from 'next/navigation';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import { AVATAR_GENERATOR } from '@/config/auth';
-
 const HeaderLayout = ({ toggleSidebar }: HeaderProps) => {
-    const user = useSelector((state: RootState) => state.auth.data);
+    const { data: session } = useSession()
     const { colorMode, toggleColorMode } = useColorMode()
     const pathname = usePathname()
     const header = constantMenuStakeholder.filter(item => item.href === pathname)[0]
@@ -68,13 +65,13 @@ const HeaderLayout = ({ toggleSidebar }: HeaderProps) => {
                     mr={2}
                 />
                 <Menu>
-                    <MenuButton as={Avatar} size="sm" src={user ? user.avatar : `${AVATAR_GENERATOR}404`} cursor="pointer" />
+                    <MenuButton as={Avatar} size="sm" src={session?.user?.image ?? "https://i.pravatar.cc/300"} cursor="pointer" />
                     <MenuList color="black">
                         <MenuItem>
-                            <Text fontWeight="bold">{user && user.name}</Text>
+                            <Text fontWeight="bold">{session?.user?.name ?? ""}</Text>
                         </MenuItem>
                         <MenuItem>
-                            <Text fontSize="sm">{user && user.email}</Text>
+                            <Text fontSize="sm">{session?.user?.email ?? ""}</Text>
                         </MenuItem>
                         <MenuItem>Profile</MenuItem>
                         <MenuItem>
