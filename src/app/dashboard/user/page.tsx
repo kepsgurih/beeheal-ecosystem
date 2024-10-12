@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader, HStack, Stack, Tab, TabList, TabPanel, TabPanels, Tabs, VStack } from "@chakra-ui/react";
+import { Card, CardBody, CardHeader, Stack, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 
 export default function User() {
     return (
