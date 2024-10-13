@@ -18,7 +18,6 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import logo from '@/assets/img/iconBee.png';
-import AvatarSide from './avatarSide';
 import { constantMenuStakeholder } from '@/constant/menu';
 
 const SidebarItem = ({ icon, children, href, ...rest }: SidebarItemProps & { href: string }) => {
@@ -75,7 +74,6 @@ const SidebarContent = () => {
           </div>
         </Flex>
       </Box>
-      <AvatarSide />
       <Box mt={5}>
         <style jsx global>{`
           .sidebar-icon {

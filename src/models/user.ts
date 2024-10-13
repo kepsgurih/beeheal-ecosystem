@@ -7,15 +7,15 @@ const userSchema = new mongoose.Schema<IUser>({
         required: [true, 'Name is required'],
         trim: true,
     },
-    avatar: {
+    email: {
         type: String,
-        required: true
+        required: [true, 'Email is required']
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
+    image: {
+        type: String,
+        required: [true, 'Avatar is required']
     },
-    verified: {
+    emailVerified: {
         type: Boolean,
         default: false,
     },
