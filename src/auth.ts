@@ -5,6 +5,6 @@ import { authConfig } from "./auth.config"
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   adapter: MongoDBAdapter(client),
-  session: {strategy: 'jwt'},
+  session: { strategy: "jwt" },
   ...authConfig
 })
