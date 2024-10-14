@@ -3,14 +3,7 @@ import GitHub from "next-auth/providers/github"
 
 export const authConfig = {
   providers: [
-    GitHub({
-      profile(profile) {
-        console.log(profile, 'profile github')
-        return {
-          ...profile
-        }
-      }
-    })
+    GitHub
   ],
   pages: {
     signIn: '/',
