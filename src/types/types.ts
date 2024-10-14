@@ -6,10 +6,11 @@ export interface IAuth extends Document {
 }
 
 export interface IUser extends Document {
+  _id: string;
   name: string;
-  avatar: string;
-  createdAt: Date;
-  verified: boolean;
+  email: string;
+  image: string;
+  emailVerified: boolean | null;
 }
 
 export interface IUserState {

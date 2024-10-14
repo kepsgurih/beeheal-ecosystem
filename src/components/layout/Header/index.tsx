@@ -15,15 +15,20 @@ import {
     Text,
     useColorMode,
 } from '@chakra-ui/react';
-import { useSession } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 import BreadCrumbLayout from '../BreadCrumbLayout';
 import { constantMenuStakeholder } from '@/constant/menu';
 import { usePathname } from 'next/navigation';
+
+
 const HeaderLayout = ({ toggleSidebar }: HeaderProps) => {
     const { data: session } = useSession()
     const { colorMode, toggleColorMode } = useColorMode()
     const pathname = usePathname()
     const header = constantMenuStakeholder.filter(item => item.href === pathname)[0]
+    const logout = async () => {
+        await signOut()
+    }
 
     return (
         <Box
@@ -74,7 +79,7 @@ const HeaderLayout = ({ toggleSidebar }: HeaderProps) => {
                             <Text fontSize="sm">{session?.user?.email ?? ""}</Text>
                         </MenuItem>
                         <MenuItem>Profile</MenuItem>
-                        <MenuItem>
+                        <MenuItem onClick={logout}>
                             Log out
                         </MenuItem>
                     </MenuList>
