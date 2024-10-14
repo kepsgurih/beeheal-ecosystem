@@ -1,10 +1,16 @@
 import type { NextAuthConfig } from 'next-auth';
 import GitHub from "next-auth/providers/github"
-import Credentials from "next-auth/providers/credentials"
 
 export const authConfig = {
   providers: [
-    GitHub,
+    GitHub({
+      profile(profile) {
+        console.log(profile, 'profile github')
+        return {
+          ...profile
+        }
+      }
+    })
   ],
   pages: {
     signIn: '/',

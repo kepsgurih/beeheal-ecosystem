@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema<IUser>({
         type: String,
         required: [true, 'Avatar is required']
     },
+    role: {
+        type: String,
+        default: "user"
+    },
     emailVerified: {
         type: Boolean,
         default: false,
