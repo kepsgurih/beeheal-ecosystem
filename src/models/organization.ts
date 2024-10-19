@@ -3,6 +3,7 @@ import mongoose, { Schema } from 'mongoose';
 
 const OrganizationSchema: Schema = new Schema({
   org_id: { type: String, required: true, unique: true },
+  users: {type: Array},
   label: { type: String, required: true }
 });
 

@@ -1,9 +1,10 @@
+import OrgList from "@/components/user/page/listOrgs";
 import UserList from "@/components/user/page/listUser";
 import { Card, CardBody, CardHeader, Stack, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
 
 export default function User() {
     return (
-        <Tabs>
+        <Tabs isFitted variant={'soft-rounded'} colorScheme="blue">
             <Stack gap={8}>
 
                 <Card>
@@ -35,7 +36,7 @@ export default function User() {
                         </TabPanel>
                         <TabPanel>
                             <CardBody>
-                                test2
+                                <OrgList />
                             </CardBody>
                         </TabPanel>
                     </TabPanels>

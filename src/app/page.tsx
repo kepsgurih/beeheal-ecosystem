@@ -1,4 +1,4 @@
-import { Box, Center, Text } from "@chakra-ui/react";
+import { Box, Center, Stack, Text } from "@chakra-ui/react";
 import bg from '@/assets/bg/bg2.jpg';
 import logo from '@/assets/img/iconBee.png'
 import Image from "next/image";
@@ -6,6 +6,7 @@ import SignInWithGithub from "@/components/social/signInWithGithub";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import SignInWithCredentials from "@/components/social/credentials";
+import SignInWithGoogle from "@/components/social/signInWithGoogle";
 
 export default async function SignIn() {
   const session = await auth();
@@ -27,9 +28,10 @@ export default async function SignIn() {
           <Center>
             <Text>Login ke Ekosistem dengan OAuth</Text>
           </Center>
-          <Box py={5}>
+          <Stack py={5}>
             <SignInWithGithub />
-          </Box>
+            <SignInWithGoogle />
+          </Stack>
         </div>
       </Box>
     </div>

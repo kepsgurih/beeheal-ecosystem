@@ -16,11 +16,9 @@ async function Layout({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div>
-      <LayoutComponents>
-        {children}
-      </LayoutComponents>
-    </div>
+    <LayoutComponents>
+      {children}
+    </LayoutComponents>
   );
 }
 

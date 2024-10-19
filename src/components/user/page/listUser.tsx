@@ -68,7 +68,7 @@ export default function UserList() {
                                     <Td>{item.emailVerified ? "Sudah" : "Belum"}</Td>
                                     <Td>
                                         <Menu>
-                                            <MenuButton px={2} colorScheme="red" size={'small'} as={Button} rightIcon={<ChevronDownIcon />}>
+                                            <MenuButton px={2} colorScheme="blue" size={'small'} as={Button} rightIcon={<ChevronDownIcon />}>
                                                 Send Email
                                             </MenuButton>
                                             <MenuList>

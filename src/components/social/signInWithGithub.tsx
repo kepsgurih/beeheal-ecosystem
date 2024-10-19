@@ -10,7 +10,7 @@ export default function SignInWithGithub() {
         await signIn("github", { redirectTo: "/dashboard" })
       }}
     >
-      <Button leftIcon={<GithubOutlined />} w={'100%'} type="submit">Masuk dengan GitHub</Button>
+      <Button colorScheme="blue" leftIcon={<GithubOutlined />} w={'100%'} type="submit">Masuk dengan GitHub</Button>
     </form>
   )
 } 
