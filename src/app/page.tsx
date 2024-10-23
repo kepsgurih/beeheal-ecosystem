@@ -1,12 +1,10 @@
-import { Box, Center, Stack, Text } from "@chakra-ui/react";
-import bg from '@/assets/bg/bg2.jpg';
 import logo from '@/assets/img/iconBee.png'
 import Image from "next/image";
 import SignInWithGithub from "@/components/social/signInWithGithub";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import SignInWithCredentials from "@/components/social/credentials";
 import SignInWithGoogle from "@/components/social/signInWithGoogle";
+import LoginAnimation from '@/components/layout/animation/login';
 
 export default async function SignIn() {
   const session = await auth();
@@ -15,25 +13,23 @@ export default async function SignIn() {
     redirect('/dashboard');
   }
   return (
-    <div className="h-screen align-center flex justify-center items-center">
-      <div>
-        <Image alt="" src={bg} layout="fill" objectFit="cover" quality={100} />
-      </div>
-      <Box boxShadow={'xl'} p={4} className="min-h-1/2 md:w-1/4 bg-blue-500 rounded-md bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-10">
+    <div className="h-screen align-center flex justify-center items-center bg-base-200">
+      <div className="card glass w-full md:w-1/2 p-5 m-5 shadow-xl z-50">
         <div>
           <Image src={logo} alt="" width={60} height={60} />
-          <Center>
-            <Text fontSize={'xl'} fontWeight={'bold'}>BeeHeal</Text>
-          </Center>
-          <Center>
-            <Text>Login ke Ekosistem dengan OAuth</Text>
-          </Center>
-          <Stack py={5}>
+          <div>
+            <div className="text-2xl text-center font-bold">BeeHeal</div>
+          </div>
+          <div>
+            <div className="text-center text-base-content ">Login ke Ekosistem dengan OAuth</div>
+          </div>
+          <div className="flex flex-col gap-2 mt-4">
             <SignInWithGithub />
             <SignInWithGoogle />
-          </Stack>
+          </div>
         </div>
-      </Box>
+      </div>
+      <LoginAnimation />
     </div>
   );
 }

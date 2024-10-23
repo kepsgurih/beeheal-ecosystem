@@ -1,6 +1,5 @@
 import { signIn } from "@/auth"
 import { GoogleOutlined } from "@ant-design/icons"
-import { Button } from "@chakra-ui/react"
 
 export default function SignInWithGoogle() {
   return (
@@ -10,7 +9,13 @@ export default function SignInWithGoogle() {
         await signIn("google", { redirectTo: "/dashboard" })
       }}
     >
-      <Button colorScheme="orange" leftIcon={<GoogleOutlined />} w={'100%'} type="submit">Masuk dengan Google</Button>
+      <button
+      type="submit"
+      className="btn btn-block btn-error"
+      >
+        <GoogleOutlined />
+        Masuk dengan Google
+      </button>
     </form>
   )
 } 

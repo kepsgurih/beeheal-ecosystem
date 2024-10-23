@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import Header from './Header';
 import Sidebar from './sideMenu';
+import { ToastContainer } from 'react-toastify';
+
 
 function LayoutComponents({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -13,14 +15,15 @@ function LayoutComponents({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex h-screen">
-    <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-    <div className="flex-1 flex flex-col">
-      <Header toggleSidebar={toggleSidebar} />
-      <main className="flex-1 p-4">
-        {children}
-      </main>
+      <ToastContainer />
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <div className="flex-1 flex flex-col">
+        <Header toggleSidebar={toggleSidebar} />
+        <main className="flex-1 p-4 bg-base-300">
+          {children}
+        </main>
+      </div>
     </div>
-  </div>
   );
 };
 

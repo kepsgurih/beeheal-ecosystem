@@ -2,9 +2,22 @@ import { IOrganization } from '@/types/types';
 import mongoose, { Schema } from 'mongoose';
 
 const OrganizationSchema: Schema = new Schema({
-  org_id: { type: String, required: true, unique: true },
-  users: {type: Array},
-  label: { type: String, required: true }
+  users: [{
+    type: String
+  }],
+  label: {
+    type: String,
+    required: true
+  },
+  show: {
+    type: Boolean,
+    require: true,
+    default: true
+  },
+  owner: {
+    type: String
+  }
 });
 
-export const Organization = mongoose.models.Organization || mongoose.model<IOrganization>('Organization', OrganizationSchema);
+const Organization = mongoose.models.Organization || mongoose.model<IOrganization>('Organization', OrganizationSchema);
+export default Organization;

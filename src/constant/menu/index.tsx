@@ -41,6 +41,7 @@ export const constantMenuStakeholder = [
         label: 'User Management',
         href: '/dashboard/user',
         notShow: false,
+        hasChild: true,
         icon: <UserOutlined />,
         breadcrumb: [
             {
@@ -52,6 +53,18 @@ export const constantMenuStakeholder = [
                 key: 1,
                 title: 'board',
                 value: '/dashboard/user'
+            }
+        ],
+        child: [
+            {
+                key: 0,
+                title: 'Manage User',
+                value: '/dashboard/user/list'
+            },
+            {
+                key: 1,
+                title: 'Manage Group',
+                value: '/dashboard/user/group'
             }
         ]
 

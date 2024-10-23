@@ -1,6 +1,6 @@
 import connectMongoDB from "@/lib/mongodb";
 import User from "@/models/user";
-import { SERVER_ERROR, UNAUTHORIZED, USER_UPDATED } from "@/config/auth";
+import { SERVER_ERROR, UNAUTHORIZED } from "@/config/auth";
 import * as jose from 'jose';
 
 
@@ -40,7 +40,7 @@ export async function PUT(request: Request) {
         await user.save();
 
         return Response.json(
-            USER_UPDATED(user),
+            { message: "Berhasil" },
             { status: 200 }
         );
     } catch (error) {

@@ -15,8 +15,10 @@ export const ListOfUsers = async (): Promise<{ data: IUser[], error: boolean }> 
             name: user.name,
             email: user.email,
             image: user.image,
+            orgsId: user.orgsId,
             emailVerified: user.emailVerified
         }));
+
         return {
             data: plainUsers as IUser[],
             error: false

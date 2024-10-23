@@ -1,6 +1,8 @@
-import type { Config } from "tailwindcss";
-import daisyui from "daisyui"
+/** @type {import('tailwindcss').Config} */
 
+import type { Config } from "tailwindcss";
+import daisyui from 'daisyui'
+import typography from "@tailwindcss/typography";
 
 const config: Config = {
   content: [
@@ -10,6 +12,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-poppins)'],
+        mono: ['var(--font-roboto-mono)'],
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
@@ -17,10 +23,11 @@ const config: Config = {
     },
   },
   plugins: [
+    typography,
     daisyui
   ],
   daisyui: {
-    themes: ["light", "dark", "cupcake"],
+    themes: true,
   },
 };
 export default config;
