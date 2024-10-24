@@ -1,90 +1,82 @@
-'use client'
+"use client";
 
-import { HeaderProps } from '@/types/types';
-import { HamburgerIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
-import {
-    Avatar,
-    Box,
-    Flex,
-    IconButton,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuList,
-    Spacer,
-    Text,
-    useColorMode,
-} from '@chakra-ui/react';
-import BreadCrumbLayout from '../BreadCrumbLayout';
-import { constantMenuStakeholder } from '@/constant/menu';
-import { usePathname } from 'next/navigation';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import { AVATAR_GENERATOR } from '@/config/auth';
+import ThemeDropdown from "@/components/themeSelector";
+import { constantMenuStakeholder } from "@/constant/menu";
+import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import React from "react";
 
-const HeaderLayout = ({ toggleSidebar }: HeaderProps) => {
-    const user = useSelector((state: RootState) => state.auth.data);
-    const { colorMode, toggleColorMode } = useColorMode()
-    const pathname = usePathname()
-    const header = constantMenuStakeholder.filter(item => item.href === pathname)[0]
+interface HeaderProps {
+  toggleSidebar: () => void;
+}
 
-    return (
-        <Box
-            as="header"
-            py={4}
-            px={10}
-            ml={{ base: 0, md: 250 }}
-            borderRadius={{ base: 0, md: 15 }}
-        >
+const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
+  const { data: session } = useSession()
+  const pathname = usePathname()
+  const header = constantMenuStakeholder.filter(item => item.href === pathname)[0]
 
-            <Flex alignItems="center">
-                <Flex>
-                    <IconButton
-                        icon={<HamburgerIcon />}
-                        onClick={toggleSidebar}
-                        variant="ghost"
-                        color={colorMode === 'light' ? '#718096' : 'white'}
-                        aria-label="Toggle sidebar"
-                        display={{ base: 'flex', md: 'none' }}
-                        mr={2}
-                    />
-                    <div>
-                        <BreadCrumbLayout data={header?.breadcrumb} />
-                        <Text fontWeight={'bold'} fontSize={14}>
-                            {header?.label}
-                        </Text>
-                    </div>
-                </Flex>
-                <div>
-
+  return (
+    <header className="bg-base-100 shadow-md p-2 flex justify-between items-center">
+      <button className="btn btn-ghost lg:hidden" onClick={toggleSidebar}>
+        <svg
+          className="swap-off fill-current"
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          viewBox="0 0 512 512">
+          <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />
+        </svg>
+      </button>
+      <div>
+        <h1 className="font-bold text-md">{header?.label}</h1>
+        <div className="breadcrumbs text-sm hidden md:block">
+          <ul>
+            {
+              header && header?.breadcrumb.map((item) => {
+                return (
+                  <li key={item.key}><Link href={item.value}>{item.title}</Link></li>
+                )
+              })
+            }
+          </ul>
+        </div>
+      </div>
+      <div className="flex items-center gap-3">
+        <ThemeDropdown />
+        <div className="dropdown dropdown-bottom dropdown-end">
+          <div tabIndex={0} role="button">
+            <div className="avatar">
+              <div className="w-12 rounded-full">
+                {
+                  session && session.user ?
+                    <img src={session?.user?.image ?? "https://ui-avatars.com/api/?size=128&name"} />
+                    :
+                    <div className="skeleton h-16 w-16 shrink-0 rounded-full"></div>
+                }
+              </div>
+            </div>
+          </div>
+          <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+            <li>
+              <div className="flex flex-col items-start text-left mb-4">
+                <div className="font-bold">
+                  {session && session.user.name}
                 </div>
-                <Spacer />
-                <IconButton
-                    icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-                    onClick={toggleColorMode}
-                    variant="ghost"
-                    color={colorMode === 'light' ? '#718096' : 'white'}
-                    aria-label="Toggle color mode"
-                    mr={2}
-                />
-                <Menu>
-                    <MenuButton as={Avatar} size="sm" src={user ? user.avatar : `${AVATAR_GENERATOR}404`} cursor="pointer" />
-                    <MenuList color="black">
-                        <MenuItem>
-                            <Text fontWeight="bold">{user && user.name}</Text>
-                        </MenuItem>
-                        <MenuItem>
-                            <Text fontSize="sm">{user && user.email}</Text>
-                        </MenuItem>
-                        <MenuItem>Profile</MenuItem>
-                        <MenuItem>
-                            Log out
-                        </MenuItem>
-                    </MenuList>
-                </Menu>
-            </Flex>
-        </Box>
-    );
+                <div className="text-sm">
+                {session && session.user.email}
+                </div>
+              </div>
+            </li>
+            <li>
+              <button className="btn btn-block btn-warning" onClick={() => signOut()}>Sign Out</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </header>
+  );
 };
 
-export default HeaderLayout;
+export default Header;

@@ -1,65 +1,52 @@
 import LayoutComponents from '@/components/layout';
 import { Metadata } from 'next';
 import React from 'react';
-import { cookies } from 'next/headers';
+import { auth, signOut } from '@/auth';
 import { redirect } from 'next/navigation';
-import UserDataInitializer from '@/components/userInitialize';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata: Metadata = {
   title: 'Beeheal - Dashboard'
 };
 
-async function getUserData() {
-  const cookieStore = cookies();
-  const token = cookieStore.get('auth_token');
-
-  if (!token) {
-    return {
-      data: null,
-      error: 'Token tidak ditemukan!'
-    };
-  }
-
-  try {
-    const response = await fetch(`${process.env.PUBLIC_URL}/api/v1/auth/me`, {
-      headers: {
-        'Authorization': `Bearer ${token.value}`
-      },
-      next: { revalidate: 0 } // Disable cache for this request
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const dataUser = await response.json();
-    return {
-      data: dataUser,
-      error: null
-    };
-  } catch (error) {
-    console.error('Error fetching user data:', error);
-    return {
-      data: null,
-      error: 'Gagal memuat data'
-    };
-  }
-}
-
 async function Layout({ children }: { children: React.ReactNode }) {
-  const { data, error } = await getUserData();
+  const session = await auth()
 
-  if (error) {
-    console.error('Error in Layout:', error);
-    redirect('/');
+  if (!session) {
+    redirect('/')
+  } else {
+    if (session.user.orgsId === "" || !session.user.orgsId) {
+      return (
+        <div className='w-full bg-base-200 h-screen items-center align-center justify-center flex'>
+          <div className='bg-base-100 p-3 md:w-2/4 w-full m-2'>
+            <div className='text-3xl font-bold font-sans text-center'>
+              403
+            </div>
+            <div className='text-center font-mono'>
+              Anda tidak dapat mengakses halaman ini ! Hubungi Administrator untuk informasi lebih lanjut
+            </div>
+            <div>
+              <form
+                action={async () => {
+                  "use server"
+                  await signOut()
+                }}
+              >
+                <button className='btn btn-error text-center btn-block text-base-100 mt-5' type="submit">Sign Out</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      )
+    } else {
+      return (
+        <LayoutComponents>
+          {children}
+        </LayoutComponents>
+      );
+    }
   }
 
-  return (
-    <LayoutComponents>
-      <UserDataInitializer userData={data} error={error} />
-      {children}
-    </LayoutComponents>
-  );
 }
 
 export default Layout;

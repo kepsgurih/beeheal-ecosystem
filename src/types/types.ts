@@ -1,34 +1,24 @@
-import { FlexProps } from "@chakra-ui/react";
-
 export interface IAuth extends Document {
   email: string;
   password: string;
 }
 
 export interface IUser extends Document {
+  _id: string;
   name: string;
-  avatar: string;
-  createdAt: Date;
-  verified: boolean;
+  email: string;
+  image: string;
+  orgsId?: string;
+  emailVerified: boolean | null;
 }
 
-export interface IUserState {
-  __v: string;
-  _id: string;
-  avatar: string;
-  createdAt: string;
-  email: string;
-  name: string;
-}
 
 export interface IOrganization extends Document {
-  org_id: string;
+  _id: string;
   label: string;
-}
-
-export interface SidebarItemProps extends FlexProps {
-  icon: React.ReactElement;
-  children: React.ReactNode;
+  users: string[];
+  show: boolean;
+  owner: string;
 }
 
 export interface SidebarProps {

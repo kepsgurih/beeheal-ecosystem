@@ -1,5 +1,3 @@
-import { IUserState } from "@/types/types";
-
 // Config Register
 export const MIN_PASSWORD = 6;
 export const AVATAR_GENERATOR = 'https://api.dicebear.com/9.x/identicon/svg?seed='
@@ -16,8 +14,5 @@ export const INVALID = { message: 'Periksa kembali email atau password Anda!' }
 
 // Config Profile
 export const UNAUTHORIZED = { message: 'Anda tidak memiliki akses!' }
-export const USER_UPDATED = (user: IUserState) => {
-    return { message: 'User berhasil di update', user }
-}
 
 export const SERVER_ERROR = { message: 'Terjadi kesalahan pada server, coba kembali beberapa saat lagi' }

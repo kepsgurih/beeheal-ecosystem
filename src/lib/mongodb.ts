@@ -1,10 +1,31 @@
 import mongoose from 'mongoose';
+import { ConnectOptions } from 'mongoose';
 
-const connectMongoDB = async () => {
-  if (mongoose.connection.readyState === 1) {
+const connectMongoDB = async (): Promise<void> => {
+  if (mongoose.connection.readyState >= 1) {
+    console.log('MongoDB already connected.');
     return;
   }
-  await mongoose.connect(process.env.MONGODB_URI || '');
+
+  try {
+    await mongoose.connect(process.env.MONGODB_URI || '');
+    console.log('MongoDB connected.');
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error);
+    throw error;
+  }
 };
 
 export default connectMongoDB;
+
+
+export const connectDB = async () => {
+  if(mongoose.connection.readyState >= 1) return;
+
+  await mongoose.connect(process.env.MONGODB_URI || '' , {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+  } as ConnectOptions);
+
+
+}

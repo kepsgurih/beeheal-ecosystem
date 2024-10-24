@@ -1,148 +1,121 @@
-import React from 'react';
-import {
-  Box,
-  VStack,
-  Link as ChakraLink,
-  Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  DrawerBody,
-  Flex,
-  useBreakpointValue,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import { SidebarItemProps, SidebarProps } from '@/types/types';
-import Image from 'next/image';
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
-import logo from '@/assets/img/iconBee.png';
-import AvatarSide from './avatarSide';
-import { constantMenuStakeholder } from '@/constant/menu';
+"use client"
 
-const SidebarItem = ({ icon, children, href, ...rest }: SidebarItemProps & { href: string }) => {
-  const pathname = usePathname();
-  const isActive = pathname === href;
-  return (
-    <Link href={href} passHref legacyBehavior>
-      <ChakraLink style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
-        <Flex
-          align="center"
-          p="2"
-          my={1}
-          mx="4"
-          borderRadius="lg"
-          role="group"
-          cursor="pointer"
-          bg={isActive ? '#007AFF' : 'transparent'}
-          color={isActive ? 'white' : 'inherit'}
-          _hover={{
-            bg: '#007AFF',
-            color: 'white',
-          }}
-          {...rest}
-        >
-          {React.cloneElement(icon as React.ReactElement, {
-            style: {
-              color: isActive ? 'white' : '#007AFF',
-              transition: 'color 0.2s',
-            },
-            className: 'sidebar-icon'
-          })}
-          <Box ml="4">{children}</Box>
-        </Flex>
-      </ChakraLink>
-    </Link>
-  );
-};
+import { constantMenuStakeholder } from "@/constant/menu";
+import Link from "next/link";
+import React from "react";
+import iconBee from '@/assets/img/iconBee.png'
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 
-const SidebarContent = () => {
-  const color = useColorModeValue('#141515', 'white');
-  
+interface SidebarProps {
+  isOpen: boolean;
+  toggleSidebar: () => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
+  const pathname = usePathname()
+
   return (
-    <VStack align="stretch" spacing={0}>
-      <Box borderBottom={'2px'} borderColor={'#E9EBF0'} borderBottomWidth={'0.5'}>
-        <Flex mx={8} alignItems={'center'} justify={'left'} py={5}>
-          <Image src={logo} alt='' style={{ width: 30 }} />
-          <div>
-            <Text fontWeight={'bold'} textColor={color} fontSize={12}>
-              BeeHeal
-            </Text>
-            <Text fontWeight={'light'} textColor={color} fontSize={12}>
-              Ecosystem
-            </Text>
+    <div
+      className={`shadow-xl fixed inset-y-0 left-0 min-w-64 bg-base-100 p-3 transition-transform transform lg:static ${isOpen ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0 z-50`}
+    >
+      <div className="flex justify-end lg:hidden">
+        <button onClick={toggleSidebar} className="btn btn-ghost">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+      <div className="flex items-center justify-center border-b-4 border-primary pb-5">
+
+        <div>
+          <Image src={iconBee} alt="" className="w-16" />
+        </div>
+        <div>
+          <div className="text-xl font-bold">
+            Bee Heal
           </div>
-        </Flex>
-      </Box>
-      <AvatarSide />
-      <Box mt={5}>
-        <style jsx global>{`
-          .sidebar-icon {
-            transition: color 0.2s;
-          }
-          .chakra-link:hover .sidebar-icon {
-            color: white !important;
-          }
-        `}</style>
+          <div className="text-xs font-mono">
+            Ecosystem
+          </div>
+        </div>
+
+      </div>
+
+      <ul className="menu rounded-box">
         {constantMenuStakeholder
           .filter((item) => item && item.notShow !== true)
-          .map((item) => (
-            <SidebarItem
-              key={item.key}
-              fontWeight={'500'}
-              icon={item.icon}
-              href={item.href}
-            >
-              <Text fontSize={'11'} pr={'10px'} fontWeight={'600'}>
-                {item.label}
-              </Text>
-            </SidebarItem>
-          ))}
-      </Box>
-    </VStack>
+          .map((item, index) => {
+            if (item.hasChild) {
+              return (
+                <li key={item.key}>
+                  <details open={pathname.startsWith(item.href)}>
+                    <summary>
+                      {React.cloneElement(item.icon as React.ReactElement, {
+                        className: 'mr-3'
+                      })}
+                      {item.label}
+                    </summary>
+                    <ul className="bg-base-100">
+                      {
+                        item.child.map((itemchild) => (
+                          <li key={itemchild.key}  className={`${pathname.includes(itemchild.value) ? 'bg-primary text-base-100' : ''} my-2 rounded-md`}>
+                            <Link href={itemchild.value} className="active:text-base-100 focus:text-base-100">{itemchild.title}</Link>
+                          </li>
+                        ))
+                      }
+                    </ul>
+                  </details>
+                </li>
+              )
+            } else {
+              return (
+                <li key={index} className={`${pathname === item.href ? 'bg-primary text-base-100' : ''} my-2 rounded-md`}>
+                  <Link href={item.href} className={`active:text-base-100 focus:text-base-100`}>
+                    {React.cloneElement(item.icon as React.ReactElement, {
+                      className: 'mr-3'
+                    })}
+                    {item.label}
+                  </Link>
+                </li>
+              )
+            }
+          }
+          )}
+        {/* <li>
+          <details>
+            <summary>Parent item</summary>
+            <ul>
+              <li><a>Submenu 1</a></li>
+              <li><a>Submenu 2</a></li>
+              <li>
+                <details open>
+                  <summary>Parent</summary>
+                  <ul>
+                    <li><a>item 1</a></li>
+                    <li><a>item 2</a></li>
+                  </ul>
+                </details>
+              </li>
+            </ul>
+          </details>
+        </li>
+        <li><a>Item 3</a></li> */}
+      </ul>
+    </div>
   );
 };
 
-const SideMenuLayout = ({ isOpen, onClose }: SidebarProps) => {
-  const isMobile = useBreakpointValue({ base: true, md: false });
-  const bgColor = useColorModeValue('white', 'rgb(15 23 42)');
-
-  if (isMobile) {
-    return (
-      <Drawer isOpen={isOpen} placement="left" onClose={onClose} size={'xs'}>
-        <DrawerOverlay>
-          <DrawerContent>
-            <DrawerCloseButton />
-            <DrawerBody>
-              <SidebarContent />
-            </DrawerBody>
-          </DrawerContent>
-        </DrawerOverlay>
-      </Drawer>
-    );
-  }
-
-  return (
-    <Box
-      as="nav"
-      pos="fixed"
-      top="0"
-      left="0"
-      zIndex="sticky"
-      h="full"
-      pb="100"
-      overflowX="hidden"
-      overflowY="auto"
-      bg={bgColor}
-      boxShadow={'xl'}
-      borderColor="#03346E"
-      borderRightWidth={{ base: '1px', md: '0' }}
-      display={{ base: 'none', md: 'block' }}
-    >
-      <SidebarContent />
-    </Box>
-  );
-};
-
-export default SideMenuLayout;
+export default Sidebar;
