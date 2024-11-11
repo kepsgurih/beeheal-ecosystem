@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Providers } from "@/helper/provider";
+import { ClerkProvider } from '@clerk/nextjs'
 import MainLayout from "@/components/layout/main";
 import "./globals.css";
 import { Poppins, Roboto_Mono } from 'next/font/google'
@@ -30,14 +30,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className={`${poppins.variable} ${roboto_mono.variable}`}>
-      <body>
-        <MainLayout >
-          <Providers>
+    <ClerkProvider>
+      <html className={`${poppins.variable} ${roboto_mono.variable}`}>
+        <body>
+          <MainLayout >
             {children}
-          </Providers>
-        </MainLayout>
-      </body>
-    </html>
+          </MainLayout>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

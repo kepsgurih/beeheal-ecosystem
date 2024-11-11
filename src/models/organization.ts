@@ -3,7 +3,15 @@ import mongoose, { Schema } from 'mongoose';
 
 const OrganizationSchema: Schema = new Schema({
   users: [{
-    type: String
+    userid: {
+      type: String
+    },
+    name: {
+      type: String
+    },
+    avatar: {
+      type: String
+    }
   }],
   label: {
     type: String,
@@ -15,7 +23,15 @@ const OrganizationSchema: Schema = new Schema({
     default: true
   },
   owner: {
-    type: String
+    userid: {
+      type: String
+    },
+    name: {
+      type: String
+    },
+    avatar: {
+      type: String
+    }
   }
 });
 

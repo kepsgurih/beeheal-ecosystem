@@ -1,21 +1,28 @@
 import LayoutComponents from '@/components/layout';
 import { Metadata } from 'next';
 import React from 'react';
-import { auth, signOut } from '@/auth';
 import { redirect } from 'next/navigation';
 import 'react-toastify/dist/ReactToastify.css';
+import { currentUser } from '@clerk/nextjs/server'
+import { SignOutButton } from '@clerk/nextjs';
 
 export const metadata: Metadata = {
   title: 'Beeheal - Dashboard'
 };
 
 async function Layout({ children }: { children: React.ReactNode }) {
-  const session = await auth()
+  const user = await currentUser()
 
-  if (!session) {
+  if (!user) {
     redirect('/')
   } else {
-    if (session.user.orgsId === "" || !session.user.orgsId) {
+    if (user?.privateMetadata.role === 'admin' || user?.privateMetadata.role === 'stakeholder') {
+      return (
+        <LayoutComponents>
+          {children}
+        </LayoutComponents>
+      );
+    } else {
       return (
         <div className='w-full bg-base-200 h-screen items-center align-center justify-center flex'>
           <div className='bg-base-100 p-3 md:w-2/4 w-full m-2'>
@@ -26,24 +33,13 @@ async function Layout({ children }: { children: React.ReactNode }) {
               Anda tidak dapat mengakses halaman ini ! Hubungi Administrator untuk informasi lebih lanjut
             </div>
             <div>
-              <form
-                action={async () => {
-                  "use server"
-                  await signOut()
-                }}
-              >
+              <SignOutButton redirectUrl='/'>
                 <button className='btn btn-error text-center btn-block text-base-100 mt-5' type="submit">Sign Out</button>
-              </form>
+              </SignOutButton>
             </div>
           </div>
         </div>
       )
-    } else {
-      return (
-        <LayoutComponents>
-          {children}
-        </LayoutComponents>
-      );
     }
   }
 

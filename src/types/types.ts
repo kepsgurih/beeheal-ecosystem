@@ -1,24 +1,61 @@
-export interface IAuth extends Document {
-  email: string;
-  password: string;
+export interface IUser {
+  id: string;
+  firstName: string;
+  lastName: string;
+  emailAddresses: IEmailUser[]
+  username: string;
+  imageUrl: string;
+  emailVerified: boolean;
+  lastActiveAt: string;
+  privateMetadata: {
+    role?: string
+  }
+  organization?: { id: string; name: string };
 }
 
-export interface IUser extends Document {
+export interface IEmailUser {
+  emailAddress: string; 
+  verification: { status: boolean }
+}
+
+export interface IUserSimple {
+  userid: string;
+  name: string;
+  avatar: string;
+}
+
+export interface IUserSimpleEmail {
+  userid: string;
+  name: string;
+  avatar: string;
+  email: string
+}
+
+export interface IUser2 extends Document {
   _id: string;
   name: string;
   email: string;
   image: string;
-  orgsId?: string;
+  orgsId?: {
+    label: string
+  } | "";
   emailVerified: boolean | null;
 }
 
+export interface ITask {
+  title: string;
+  description: string;
+  position: number;
+  assigned: IUserSimpleEmail[]
+  sprint: number;
+}
 
-export interface IOrganization extends Document {
+export interface IOrganization {
   _id: string;
   label: string;
-  users: string[];
+  users: IUserSimple[];
   show: boolean;
-  owner: string;
+  owner: IUserSimple;
 }
 
 export interface SidebarProps {

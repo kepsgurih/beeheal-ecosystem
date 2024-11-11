@@ -1,34 +1,29 @@
 "use server"
 
-import connectMongoDB from "@/lib/mongodb";
-import User from "@/models/user";
-import { IUser } from '@/types/types';
+import { auth } from "@clerk/nextjs/server";
+import axios from "axios";
 
-export const ListOfUsers = async (): Promise<{ data: IUser[], error: boolean }> => {
+export const ListOfUsers = async () => {
+    const url = process.env.PUBLIC_URL
+    const { getToken } = await auth()
+
     try {
-        await connectMongoDB();
-
-        const users = await User.find();
-
-        const plainUsers = users.map(user => ({
-            _id: user._id.toString(),
-            name: user.name,
-            email: user.email,
-            image: user.image,
-            orgsId: user.orgsId,
-            emailVerified: user.emailVerified
-        }));
-
+        const data = await axios({
+            url: url + '/api/v1/user',
+            method: 'GET',
+            headers: {
+                Authorization: 'Bearer ' + await getToken()
+            }
+        })
         return {
-            data: plainUsers as IUser[],
+            data: data.data,
             error: false
         }
-    }
-    catch (e) {
-        console.error('Error fetching users /src/services/user.ts', e);
+    } catch (e) {
+        console.error(e, 'src/services/user.ts')
         return {
             error: true,
             data: []
-        }
+        };
     }
-}
+};

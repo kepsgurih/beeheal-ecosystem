@@ -1,85 +1,90 @@
 "use server"
 
-import connectMongoDB, { connectDB } from "@/lib/mongodb";
-import Organization from "@/models/organization";
-import { auth } from "../auth"
-import { IOrganization } from "@/types/types";
-import User from "@/models/user";
+import { auth } from "@clerk/nextjs/server";
+import axios from "axios";
 
-interface dataProps {
-    label: string;
-    show: boolean;
+interface labelsProsp {
+    label: string | '';
+    show: boolean
 }
 
-export const postNewOrgServices = async (data: dataProps) => {
-    const session = await auth()
-    const dataBaru = { ...data, owner: session?.user.id, users: [session?.user.id] }
-
+export const postNewOrgServices = async (data: labelsProsp) => {
+    const url = process.env.PUBLIC_URL
+    const { getToken } = await auth()
     try {
-        await connectDB();
-        const newData = new Organization(dataBaru)
-        await newData.save()
-        return true
-
-    } catch (e) {
-        console.log(e)
-        return false
-    }
-}
-
-
-export const listAllOrgServices = async () => {
-    try {
-        await connectMongoDB();
-
-        const organizations = await Organization.find();
-
-        const organization = organizations.map(org => ({
-            _id: org._id.toString(),
-            owner: org.owner,
-            users: org.users,
-            label: org.label,
-            show: org.show
-        }));
+        await axios({
+            url: url + '/api/v1/organization',
+            method: 'POST',
+            data,
+            headers: {
+                Authorization: 'Bearer ' + await getToken()
+            }
+        })
         return {
-            data: organization as IOrganization[],
+            data: 'Berhasil',
             error: false
         }
     }
     catch (e) {
-        console.error('Error fetching users /src/services/org.ts', e);
+        console.error(e, 'src/services/org.ts')
         return {
             error: true,
-            data: []
+            data: 'Gagal input data'
         }
     }
 }
 
-export const UpdateUserOrgs = async (userId: string, orgId: string) => {
+export const putOrgServices = async (orgId: string, userId: string) => {
+    const url = process.env.PUBLIC_URL
+    const { getToken } = await auth()
     try {
-        await connectMongoDB();
-
-        const user = await User.findById(userId);
-        if (!user) {
-            throw new Error('User not found');
+        await axios({
+            url: url + '/api/v1/organization',
+            method: 'PUT',
+            data: {
+                orgId,
+                userId
+            },
+            headers: {
+                Authorization: 'Bearer ' + await getToken()
+            }
+        })
+        return {
+            data: 'Berhasil',
+            error: false
         }
-
-        const organization = await Organization.findById(orgId);
-        if (!organization) {
-            throw new Error('Organization not found');
+    }
+    catch (e) {
+        console.error(e, 'src/services/org.ts')
+        return {
+            error: true,
+            data: 'Gagal input data'
         }
+    }
+}
 
-        user.orgsId = orgId;
-        await user.save();
+export const listAllOrgServices = async () => {
+    const url = process.env.PUBLIC_URL
+    const { getToken } = await auth()
 
-        if (!organization.users.includes(userId)) {
-            organization.users.push(userId);
-            await organization.save();
+    try {
+        const data = await axios({
+            url: url + '/api/v1/organization',
+            method: 'GET',
+            headers: {
+                Authorization: 'Bearer ' + await getToken()
+            }
+        })
+        return {
+            data: data.data,
+            error: false
         }
-
-        return true;
-    } catch (error) {
-        console.error('Error updating user organizations:', error);
-        throw error;
+    }
+    catch (e) {
+        console.error(e, 'src/services/org.ts')
+        return {
+            error: true,
+            data: []
+        }
     }
 }
