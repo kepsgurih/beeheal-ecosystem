@@ -1,25 +1,27 @@
 "use client"
 
 import { postNewOrgServices } from "@/services/org"
+import { useRouter } from "next/navigation"
 import { FormEvent, useState } from "react"
 import { toast } from "react-toastify"
 
 export default function PostNewOrgs() {
+    const router = useRouter()
 
     const [data, setData] = useState({
         label: '',
         show: true,
-
     })
 
     const formAction = async (e: FormEvent) => {
         e.preventDefault()
         const save = await postNewOrgServices(data)
-        if (save) {
-            toast.info('Berhasil')
-            setData({ label: '', show: true })
+        if (save.error) {
+            toast.error(save.data)
         } else {
-            toast.error('Gagal menyimpan data')
+            toast.info('Berhasil')
+            router.refresh()
+
         }
     }
 

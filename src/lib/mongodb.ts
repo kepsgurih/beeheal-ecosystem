@@ -3,15 +3,12 @@ import { ConnectOptions } from 'mongoose';
 
 const connectMongoDB = async (): Promise<void> => {
   if (mongoose.connection.readyState >= 1) {
-    console.log('MongoDB already connected.');
     return;
   }
 
   try {
     await mongoose.connect(process.env.MONGODB_URI || '');
-    console.log('MongoDB connected.');
   } catch (error) {
-    console.error('Error connecting to MongoDB:', error);
     throw error;
   }
 };

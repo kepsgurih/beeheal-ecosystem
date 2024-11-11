@@ -19,11 +19,12 @@ function LayoutComponents({ children }: { children: React.ReactNode }) {
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <div className="flex-1 flex flex-col">
         <Header toggleSidebar={toggleSidebar} />
-        <main className="flex-1 p-4 bg-base-300">
+        <main className="flex-1 p-4 bg-base-300 overflow-hidden">
           {children}
         </main>
       </div>
     </div>
+
   );
 };
 

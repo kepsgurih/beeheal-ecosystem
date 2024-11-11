@@ -14,7 +14,8 @@ export const constantMenuStakeholder = [
                 title: 'Home',
                 value: '/dashboard'
             }
-        ]
+        ],
+        isAdmin: true
     },
     {
         key: 'TaskManagement',
@@ -33,7 +34,8 @@ export const constantMenuStakeholder = [
                 title: 'board',
                 value: '/dashboard/board'
             }
-        ]
+        ],
+        isAdmin: true
 
     },
     {
@@ -66,7 +68,8 @@ export const constantMenuStakeholder = [
                 title: 'Manage Group',
                 value: '/dashboard/user/group'
             }
-        ]
+        ],
+        isAdmin: true
 
     },
     {
@@ -86,7 +89,8 @@ export const constantMenuStakeholder = [
                 title: 'Profile',
                 value: '/dashboard/me'
             }
-        ]
+        ],
+        isAdmin: true
 
     }
 ]

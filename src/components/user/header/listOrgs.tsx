@@ -1,4 +1,4 @@
-import PostNewOrgs from "../post/newOrg";
+import PostNewOrgs from "@/components/user/post/newOrg";
 
 export default async function HeaderListOrgs() {
     return (

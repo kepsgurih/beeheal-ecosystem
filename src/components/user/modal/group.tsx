@@ -40,9 +40,8 @@ export default function ModalGroup({ modalOpen, selectGroup, closeGroup }: Modal
             } else {
                 setOrgs(data);
             }
-        } catch (error) {
+        } catch {
             toast.error('Terjadi kesalahan pada sistem');
-            console.log(error)
         }
     };
 

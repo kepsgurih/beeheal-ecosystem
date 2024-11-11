@@ -54,7 +54,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
 
       </div>
 
-      <ul className="menu rounded-box">
+      <ul className="menu">
         {constantMenuStakeholder
           .filter((item) => item && item.notShow !== true)
           .map((item, index) => {
@@ -71,7 +71,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
                     <ul className="bg-base-100">
                       {
                         item.child.map((itemchild) => (
-                          <li key={itemchild.key}  className={`${pathname.includes(itemchild.value) ? 'bg-primary text-base-100' : ''} my-2 rounded-md`}>
+                          <li key={itemchild.key}  className={`${pathname.includes(itemchild.value) ? 'bg-primary text-base-100' : ''} my-2`}>
                             <Link href={itemchild.value} className="active:text-base-100 focus:text-base-100">{itemchild.title}</Link>
                           </li>
                         ))
@@ -82,7 +82,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
               )
             } else {
               return (
-                <li key={index} className={`${pathname === item.href ? 'bg-primary text-base-100' : ''} my-2 rounded-md`}>
+                <li key={index} className={`${pathname === item.href ? 'bg-primary text-base-100' : ''} my-2`}>
                   <Link href={item.href} className={`active:text-base-100 focus:text-base-100`}>
                     {React.cloneElement(item.icon as React.ReactElement, {
                       className: 'mr-3'
@@ -94,25 +94,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
             }
           }
           )}
-        {/* <li>
-          <details>
-            <summary>Parent item</summary>
-            <ul>
-              <li><a>Submenu 1</a></li>
-              <li><a>Submenu 2</a></li>
-              <li>
-                <details open>
-                  <summary>Parent</summary>
-                  <ul>
-                    <li><a>item 1</a></li>
-                    <li><a>item 2</a></li>
-                  </ul>
-                </details>
-              </li>
-            </ul>
-          </details>
-        </li>
-        <li><a>Item 3</a></li> */}
       </ul>
     </div>
   );

@@ -2,7 +2,7 @@
 
 import ThemeDropdown from "@/components/themeSelector";
 import { constantMenuStakeholder } from "@/constant/menu";
-import { signOut, useSession } from "next-auth/react";
+import { UserButton } from '@clerk/clerk-react'
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -12,7 +12,6 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
-  const { data: session } = useSession()
   const pathname = usePathname()
   const header = constantMenuStakeholder.filter(item => item.href === pathname)[0]
 
@@ -44,35 +43,7 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
       </div>
       <div className="flex items-center gap-3">
         <ThemeDropdown />
-        <div className="dropdown dropdown-bottom dropdown-end">
-          <div tabIndex={0} role="button">
-            <div className="avatar">
-              <div className="w-12 rounded-full">
-                {
-                  session && session.user ?
-                    <img src={session?.user?.image ?? "https://ui-avatars.com/api/?size=128&name"} />
-                    :
-                    <div className="skeleton h-16 w-16 shrink-0 rounded-full"></div>
-                }
-              </div>
-            </div>
-          </div>
-          <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-            <li>
-              <div className="flex flex-col items-start text-left mb-4">
-                <div className="font-bold">
-                  {session && session.user.name}
-                </div>
-                <div className="text-sm">
-                {session && session.user.email}
-                </div>
-              </div>
-            </li>
-            <li>
-              <button className="btn btn-block btn-warning" onClick={() => signOut()}>Sign Out</button>
-            </li>
-          </ul>
-        </div>
+        <UserButton />
       </div>
 
     </header>
