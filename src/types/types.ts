@@ -14,7 +14,7 @@ export interface IUser {
 }
 
 export interface IEmailUser {
-  emailAddress: string; 
+  emailAddress: string;
   verification: { status: boolean }
 }
 
@@ -43,11 +43,17 @@ export interface IUser2 extends Document {
 }
 
 export interface ITask {
+  id: number;
   title: string;
   description: string;
   position: number;
   assigned: IUserSimpleEmail[]
   sprint: number;
+  owner: IUserSimpleEmail;
+  priority?: number;
+  endAt?: string | null;
+  createdAt?: string | null;
+  updatedAt?: string | null;
 }
 
 export interface IOrganization {

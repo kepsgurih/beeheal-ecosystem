@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from '@clerk/nextjs'
 import MainLayout from "@/components/layout/main";
-import "./globals.css";
 import { Poppins, Roboto_Mono } from 'next/font/google'
+import "./globals.css";
+import "@liveblocks/react-ui/styles.css";
 
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 
