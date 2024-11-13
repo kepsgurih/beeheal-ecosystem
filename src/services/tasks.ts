@@ -14,7 +14,7 @@ export const editTask = async (taskId: number, updatedTask: ITask) => {
 
 export const saveData = async (newTask: Partial<ITask>) => {
   try {
-    const response = await axios.post('http://localhost:3000/api/v1/tasks', newTask);
+    const response = await axios.post(process.env.PUBLIC_URL + '/api/v1/tasks', newTask);
 
     return response.data
   } catch (error) {
