@@ -50,6 +50,10 @@ export interface ITask {
   assigned: IUserSimpleEmail[]
   sprint: number;
   owner: IUserSimpleEmail;
+  priority?: number;
+  endAt?: string | null;
+  createdAt?: string | null;
+  updatedAt?: string | null;
 }
 
 export interface IOrganization {

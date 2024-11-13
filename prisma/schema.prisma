@@ -18,10 +18,12 @@ model Task {
   id          Int      @id @default(autoincrement())
   title       String
   description String
-  position    Int
+  position    Int @default(1)
   assigned    Json?
   owner       Json?
-  sprint      Int
+  sprint      Int @default(2)
+  priority    Int @default(1)
+  endAt       DateTime?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
