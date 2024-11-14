@@ -3,8 +3,8 @@ import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
-export async function GET(request: Request, { params }: { params: { sprint: string } }) {
-  const { sprint } = params;
+  export async function GET(request: Request, { params }: { params: Promise<{ sprint: string }> }) {
+  const sprint= (await params).sprint;
   if (!sprint) return NextResponse.json({ error: "sprint is required" }, { status: 400 });
 
   try {

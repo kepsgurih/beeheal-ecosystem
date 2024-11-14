@@ -41,6 +41,15 @@ export interface IUser2 extends Document {
   } | "";
   emailVerified: boolean | null;
 }
+export interface IEmotion {
+  _id: string;
+  userId: string;
+  avatar: string;
+  fullName: string;
+  emotionType: number;
+  createdDate: Date;
+  updatedDate: Date;
+}
 
 export interface ITask {
   id: number;
