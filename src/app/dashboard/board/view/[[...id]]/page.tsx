@@ -6,8 +6,7 @@ async function fetchTasks(p0: string) {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-        },
-        cache: "no-store", // Pastikan data diambil setiap kali
+        }
     });
     return res.json();
 }

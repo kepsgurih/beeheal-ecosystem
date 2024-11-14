@@ -6,10 +6,11 @@ import { toast } from "react-toastify";
 import { ListOfUsers } from '@/services/user';
 import { CollaborativeApp } from '@/lib/room/colab';
 import { Room } from '@/lib/room/provider';
+import { useEditor, EditorContent } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
 
 export default function ViewTask({ data, position }: { data: ITask, position: string }) {
     const [isEditingTitle, setIsEditingTitle] = useState(false);
-    const [isEditingDesc, setIsEditingDesc] = useState(false);
     const [title, setTitle] = useState(data.title);
     const [description, setDescription] = useState(data.description);
     const [currentStatus, setCurrentStatus] = useState(data.position);
@@ -24,6 +25,14 @@ export default function ViewTask({ data, position }: { data: ITask, position: st
     const [isLoading, setIsLoading] = useState(true);
 
     const hostname = typeof window !== 'undefined' && window.location.hostname ? window.location.hostname : '';
+
+    const editor = useEditor({
+        extensions: [StarterKit],
+        content: description,
+        onUpdate: () => setDescription(editor?.getHTML() as string),
+        onBlur: () => handleDescriptionSubmit()
+    })
+
 
     useEffect(() => {
         fetchUsers();
@@ -79,12 +88,8 @@ export default function ViewTask({ data, position }: { data: ITask, position: st
         }
     };
 
-    const handleDescriptionSubmit = async (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter' && e.shiftKey) {
-            e.preventDefault();
-            setIsEditingDesc(false);
-            await updateTask({ description });
-        }
+    const handleDescriptionSubmit = async () => {
+        await updateTask({ description });
     };
 
     const handleStatusChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -187,24 +192,7 @@ export default function ViewTask({ data, position }: { data: ITask, position: st
                 <div className="lg:col-span-2 order-2 lg:order-1">
                     <div className="mb-6 sm:mb-8">
                         <h2 className="text-lg font-semibold mb-3">Description</h2>
-                        {isEditingDesc ? (
-                            <textarea
-                                className="w-full p-2 border rounded"
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
-                                onKeyDown={handleDescriptionSubmit}
-                                onBlur={() => setIsEditingDesc(false)}
-                                rows={5}
-                                autoFocus
-                            />
-                        ) : (
-                            <div
-                                className="prose max-w-none cursor-pointer hover:bg-base-200 p-2 rounded"
-                                onClick={() => setIsEditingDesc(true)}
-                            >
-                                <p>{description}</p>
-                            </div>
-                        )}
+                        <EditorContent editor={editor} />
                     </div>
                 </div>
                 <div className="lg:col-span-2 order-2 lg:order-1">
