@@ -3,8 +3,8 @@ import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
-    const { id } = params;
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+    const id = (await params).id;
     if (!id) return NextResponse.json({ error: "ID is required" }, { status: 400 });
 
     try {

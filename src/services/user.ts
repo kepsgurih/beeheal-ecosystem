@@ -27,3 +27,28 @@ export const ListOfUsers = async () => {
         };
     }
 };
+
+export const ListOfEmotion = async () => {
+    const url = process.env.PUBLIC_URL
+    const { getToken } = await auth()
+
+    try {
+        const data = await axios({
+            url: url + '/api/v1/emotion',
+            method: 'GET',
+            headers: {
+                Authorization: 'Bearer ' + await getToken()
+            }
+        })
+        return {
+            data: data.data,
+            error: false
+        }
+    } catch (e) {
+        console.error(e, 'src/services/user.ts')
+        return {
+            error: true,
+            data: []
+        };
+    }
+};

@@ -3,7 +3,7 @@
 import { constantMenuStakeholder } from "@/constant/menu";
 import Link from "next/link";
 import React from "react";
-import iconBee from '@/assets/img/iconBee.png'
+import iconBee from '@/assets/img/BeeHeal.png'
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
@@ -41,12 +41,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
       <div className="flex items-center justify-center border-b-4 border-primary pb-5">
 
         <div>
+        <div>
           <Image src={iconBee} alt="" className="w-16" />
         </div>
-        <div>
-          <div className="text-xl font-bold">
-            Bee Heal
-          </div>
           <div className="text-xs font-mono">
             Ecosystem
           </div>
