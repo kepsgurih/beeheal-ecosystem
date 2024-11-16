@@ -1,4 +1,3 @@
-// Page.tsx (Server Component)
 import { Backlog } from "@/components/board/backlog";
 import ButtonGroup from "@/components/board/buttonGroup";
 import { SprintContent } from "@/components/board/sprint";
