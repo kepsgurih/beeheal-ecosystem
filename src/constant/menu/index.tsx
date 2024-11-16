@@ -1,4 +1,4 @@
-import { DashboardOutlined, OrderedListOutlined, UserOutlined } from "@ant-design/icons";
+import { DashboardOutlined, OrderedListOutlined, SmileOutlined, UserOutlined } from "@ant-design/icons";
 import React from "react";
 
 export const constantMenuStakeholder = [
@@ -73,11 +73,11 @@ export const constantMenuStakeholder = [
 
     },
     {
-        key: 'me',
-        label: 'Profile',
-        href: '/dashboard/me',
-        icon: <UserOutlined />,
-        notShow: true,
+        key: 'EmotionUser',
+        label: 'Emotion User',
+        href: '/dashboard/emotion',
+        notShow: false,
+        icon: <SmileOutlined />,
         breadcrumb: [
             {
                 key: 0,
@@ -86,11 +86,11 @@ export const constantMenuStakeholder = [
             },
             {
                 key: 1,
-                title: 'Profile',
-                value: '/dashboard/me'
+                title: 'board',
+                value: '/dashboard/emotion'
             }
         ],
         isAdmin: true
 
-    }
+    },
 ]

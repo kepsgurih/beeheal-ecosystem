@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { ListOfUsers } from '@/services/user';
 import { saveData } from '@/services/tasks';
+import { useEditor, EditorContent } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
 
 const NewTaskForm = () => {
     const [title, setTitle] = useState('');
@@ -38,6 +40,13 @@ const NewTaskForm = () => {
             setIsLoading(false);
         }
     };
+
+    const editor = useEditor({
+        extensions: [StarterKit],
+        content: description,
+        onUpdate: () => setDescription(editor?.getHTML() as string),
+
+    })
 
     if (isLoading) {
         return (
@@ -105,13 +114,9 @@ const NewTaskForm = () => {
                     </div>
                     <div className="mb-6 sm:mb-8">
                         <h2 className="text-lg font-semibold mb-3">Description</h2>
-                        <textarea
-                            className="w-full p-2 border rounded"
-                            placeholder="Task description"
-                            rows={5}
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                        />
+                        <div className='bg-base-200'>
+                            <EditorContent editor={editor} />
+                        </div>
                     </div>
                 </div>
 
@@ -129,14 +134,15 @@ const NewTaskForm = () => {
                         </select>
                     </div>
                     <div>
-                        <h3 className="text-sm font-medium mb-2">Tugas Untuk</h3>
+                        <h3 className="text-sm font-medium mb-2">Sprint</h3>
                         <select
                             className="select select-bordered w-full text-sm sm:text-base"
                             value={currentStatus}
                             onChange={(e) => setCurrentSprint(parseInt(e.target.value))}
                         >
-                            <option value={1}>Saat Ini</option>
-                            <option value={2}>Minggu Ini</option>
+                            <option value={1}>Current Sprint</option>
+                            <option value={2}>Next Sprint</option>
+                            <option value={3}>Done</option>
                         </select>
                     </div>
 
